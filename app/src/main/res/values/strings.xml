@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MyDict</string>
+    <string name="category_name">Phrasal verbs</string>
+    <string name="category_words_count">296 word(-s)</string>
+    <string name="category_progress_img">progress</string>
+    <string name="category">Category</string>
+</resources>
