@@ -1,0 +1,58 @@
+package com.example.mydict.adapters
+
+import android.content.Context
+import android.content.res.Resources
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ListAdapter
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.mydict.R
+import com.example.mydict.models.Category
+
+
+class RecyclerCategoryAdapter(private val context:Context,
+                              private val categories:List<Category>,
+                              var onItemClick: (Category)->Unit):
+        RecyclerView.Adapter<RecyclerCategoryAdapter.Holder>() {
+    private val width= Resources.getSystem().displayMetrics.widthPixels
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val view=LayoutInflater.from(context).inflate(
+                R.layout.category_item,
+                parent,
+                false)
+        return Holder(view, onItemClick)
+    }
+
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.bindView(categories[position])
+    }
+
+    override fun getItemCount(): Int {
+        return categories.count()
+    }
+
+    inner class Holder(private val itemView: View, var onItemClick: (Category) -> Unit) : RecyclerView.ViewHolder(itemView){
+        private val catProgress: ImageView =itemView.findViewById<ImageView>(R.id.progress)
+        private val catName: TextView =itemView.findViewById<TextView>(R.id.cat_name)
+
+        fun bindView(category: Category){
+            
+            val imageWidth=if(category.progress > 0 ) {
+                (width * category.progress)/100
+            }else 0
+            catProgress.setImageResource(when(category.progress){
+                in 0..40-> R.drawable.category_progress_bg_red
+                in 41..70-> R.drawable.category_progress_bg_orange
+                else -> R.drawable.category_progress_bg_green
+            })
+            catProgress.layoutParams.width=imageWidth
+            catName.text=category.title
+
+            itemView.setOnClickListener { onItemClick(category) }
+        }
+    }
+}

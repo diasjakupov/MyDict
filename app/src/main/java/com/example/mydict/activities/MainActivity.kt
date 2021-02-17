@@ -1,33 +1,37 @@
 package com.example.mydict.activities
 
 
-import android.content.res.Resources
-import android.os.Build
+
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
+
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.mydict.EXTRA_CATEGORY
 
 import com.example.mydict.R
-import com.example.mydict.adapters.CategoryAdapter
+import com.example.mydict.adapters.RecyclerCategoryAdapter
 import com.example.mydict.db.FakeDataBase
-import com.example.mydict.models.Category
+
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var adapter : CategoryAdapter
-    @RequiresApi(Build.VERSION_CODES.R)
+    lateinit var adapter : RecyclerCategoryAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val width=Resources.getSystem().displayMetrics.widthPixels
-        val rvCategory=findViewById<ListView>(R.id.rvCategory)
-        adapter = CategoryAdapter(this,
-                FakeDataBase.categories, width)
+
+        val rvCategory=findViewById<RecyclerView>(R.id.rvCategory)
+        adapter = RecyclerCategoryAdapter(this,
+                FakeDataBase.categories){category ->
+            val intent=Intent(this, WordListActivity::class.java).apply {
+                putExtra(EXTRA_CATEGORY, category)
+            }
+            startActivity(intent)
+        }
         rvCategory.adapter = adapter
+        rvCategory.layoutManager=LinearLayoutManager(this)
+        rvCategory.setHasFixedSize(true)
     }
 }

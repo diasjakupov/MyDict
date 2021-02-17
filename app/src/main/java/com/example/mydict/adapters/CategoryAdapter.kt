@@ -36,9 +36,7 @@ class CategoryAdapter(private val context: Context,
             in 41..70->R.drawable.category_progress_bg_orange
             else -> R.drawable.category_progress_bg_green
         })
-        Log.d("WIDTH", "$imageWidth")
-        Log.d("WIDTH", "$convertView")
-        Log.d("WIDTH", "$parent")
+
         cat_progress.layoutParams.width=imageWidth
 
         cat_name.text=category.title

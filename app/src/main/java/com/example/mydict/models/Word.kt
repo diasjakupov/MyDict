@@ -4,7 +4,8 @@ class Word(
         var name:String,
         var translate:String,
         var example:String,
-        var progress: Int = 0) {
+        var progress: Int = 0,
+        var category: Category) {
     override fun toString(): String {
         return name
     }
