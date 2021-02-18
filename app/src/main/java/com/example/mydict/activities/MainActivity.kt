@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         adapter = RecyclerCategoryAdapter(this,
                 FakeDataBase.categories){category ->
             val intent=Intent(this, WordListActivity::class.java).apply {
-                putExtra(EXTRA_CATEGORY, category)
+                putExtra(EXTRA_CATEGORY, category?.id)
             }
             startActivity(intent)
         }

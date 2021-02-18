@@ -16,11 +16,10 @@ class WordListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_word_list)
-        var category=intent.getParcelableExtra<Category>(EXTRA_CATEGORY)
-        var wordList=FakeDataBase.words.filter { it.category.id == category?.id}
+        var category=intent.getIntExtra(EXTRA_CATEGORY, 0)
+        var wordList=FakeDataBase.words.filter { it.category == category}
         val rvWords=findViewById<RecyclerView>(R.id.rvWords)
         println(wordList)
-        println(FakeDataBase.words[0])
         println(category)
         rvWords.adapter=WordAdapter(this, wordList)
         rvWords.layoutManager=LinearLayoutManager(this)

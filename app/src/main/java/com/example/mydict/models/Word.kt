@@ -5,7 +5,7 @@ class Word(
         var translate:String,
         var example:String,
         var progress: Int = 0,
-        var category: Category) {
+        var category: Int) {
     override fun toString(): String {
         return name
     }
