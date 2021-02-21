@@ -7,5 +7,7 @@
     <string name="textview">TextView</string>
     <string name="translate">Translate</string>
     <string name="word">word</string>
+    <string name="add_a_word">Add a word</string>
+    <string name="add">ADD NEW WORD</string>
 
 </resources>

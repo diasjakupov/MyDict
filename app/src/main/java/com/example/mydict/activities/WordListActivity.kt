@@ -19,8 +19,6 @@ class WordListActivity : AppCompatActivity() {
         var category=intent.getIntExtra(EXTRA_CATEGORY, 0)
         var wordList=FakeDataBase.words.filter { it.category == category}
         val rvWords=findViewById<RecyclerView>(R.id.rvWords)
-        println(wordList)
-        println(category)
         rvWords.adapter=WordAdapter(this, wordList)
         rvWords.layoutManager=LinearLayoutManager(this)
     }

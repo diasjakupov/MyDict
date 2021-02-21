@@ -4,24 +4,13 @@ import com.example.mydict.models.Category
 import com.example.mydict.models.Word
 
 object FakeDataBase {
-    val categories = listOf<Category>(
+    val categories = mutableListOf<Category>(
             Category("Phrasal verbs", 38, 0),
             Category("Adjectives", 89, 1),
             Category("Irregular Verbs", 45, 2),
-            Category("Nouns", 83, 3),
-            Category("Phrasal verbs", 38, 4),
-            Category("Adjectives", 89, 5),
-            Category("Irregular Verbs", 45, 6),
-            Category("Nouns", 83, 7),
-            Category("Phrasal verbs", 38, 8),
-            Category("Adjectives", 89, 9),
-            Category("Irregular Verbs", 45, 10),
-            Category("Nouns", 83, 11),
-            Category("Phrasal verbs", 38, 12),
-            Category("Adjectives", 89, 13),
-            Category("Irregular Verbs", 45, 14),
-            Category("Nouns", 83, 15),
+            Category("Nouns", 83, 3)
     )
+
     val words = listOf<Word>(
             Word("Transcend",
                     "Превосходить",

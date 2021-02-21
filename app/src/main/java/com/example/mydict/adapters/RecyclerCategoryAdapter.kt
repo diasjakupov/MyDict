@@ -13,14 +13,13 @@ import com.example.mydict.R
 import com.example.mydict.models.Category
 
 
-class RecyclerCategoryAdapter(private val context:Context,
-                              private val categories:List<Category>,
-                              var onItemClick: (Category)->Unit):
+class RecyclerCategoryAdapter(var onItemClick: (Category)->Unit):
         RecyclerView.Adapter<RecyclerCategoryAdapter.Holder>() {
+    private var categories:List<Category> = mutableListOf()
     private val width= Resources.getSystem().displayMetrics.widthPixels
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val view=LayoutInflater.from(context).inflate(
+        val view=LayoutInflater.from(parent.context).inflate(
                 R.layout.category_item,
                 parent,
                 false)
@@ -33,6 +32,11 @@ class RecyclerCategoryAdapter(private val context:Context,
 
     override fun getItemCount(): Int {
         return categories.count()
+    }
+
+    fun refreshDataList(categories: MutableList<Category>){
+        this.categories=categories
+        notifyDataSetChanged()
     }
 
     inner class Holder(private val itemView: View, var onItemClick: (Category) -> Unit) : RecyclerView.ViewHolder(itemView){
