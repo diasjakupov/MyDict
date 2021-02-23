@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/CategoryAdd"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="24dp"
@@ -34,7 +34,7 @@
             android:gravity="center"
             android:text="Add Category"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/imageButton5"
+            app:layout_constraintEnd_toEndOf="@+id/CategoryAdd"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

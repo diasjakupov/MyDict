@@ -1,60 +1,50 @@
 package com.example.mydict.fragments
 
-
-import android.content.res.Resources
 import android.os.Bundle
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
 import com.example.mydict.R
 
-class WordForm : DialogFragmentInstance() {
-    private lateinit var createNewWord:TextView
-    private lateinit var wordInput:TextView
-    private lateinit var wordTranslate:TextView
-
+class CategoryForm : DialogFragmentInstance() {
+    private lateinit var categoryEdit:EditText
+    private lateinit var addCategoryBtn: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
-        return inflater.inflate(R.layout.fragment_word_form, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_category_form, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        cardView=view.findViewById<CardView>(R.id.WordcardView)
+        categoryEdit=view.findViewById(R.id.CategryEdit)
+        addCategoryBtn=view.findViewById(R.id.addCategory)
+        cardView=view.findViewById(R.id.CategoryCardView)
         getCardViewWeight()
 
-        createNewWord=view.findViewById(R.id.addWord)
-        wordInput=view.findViewById(R.id.word)
-        wordTranslate=view.findViewById(R.id.wordTranslate)
-        createNewWord.setOnClickListener {
-            if(wordInput.text.toString().isNotEmpty() &&
-                    wordTranslate.text.toString().isNotEmpty()){
+        addCategoryBtn.setOnClickListener {
+            if(categoryEdit.text.toString().isNotEmpty()){
                 dialog?.dismiss()
             }else{
                 Toast.makeText(activity?.baseContext,
-                        "Please fill up the inputs",
-                        Toast.LENGTH_SHORT).show()
+                    "Please fill up the input(-s)",
+                    Toast.LENGTH_SHORT).show()
             }
-
         }
 
     }
-
-
     companion object {
         @JvmStatic
-        fun newInstance() = WordForm()
+        fun newInstance() = CategoryForm()
     }
 }

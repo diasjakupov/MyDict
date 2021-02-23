@@ -24,11 +24,21 @@ class ButtonsFragment : Fragment() {
         Wordbtn.setOnClickListener {
             onWordClick()
         }
+        CategoryBtn=view.findViewById(R.id.CategoryAdd)
+        CategoryBtn.setOnClickListener {
+            onCategoryClick()
+        }
+        
     }
 
     private fun onWordClick(){
-        val dialog=WordForm()
+        val dialog=WordForm.newInstance()
         dialog.show(childFragmentManager, "wordForm")
+    }
+
+    private fun onCategoryClick(){
+        val dialog=CategoryForm.newInstance()
+        dialog.show(childFragmentManager, "categoryForm")
     }
     companion object {
         @JvmStatic
