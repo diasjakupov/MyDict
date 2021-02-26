@@ -3,6 +3,7 @@
     package="com.example.mydict">
 
     <application
+        android:name=".DictApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"

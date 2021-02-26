@@ -2,6 +2,7 @@ package com.example.mydict.adapters
 
 import android.content.Context
 import android.content.res.Resources
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,7 @@ class RecyclerCategoryAdapter(var onItemClick: (Category)->Unit):
         return categories.count()
     }
 
-    fun refreshDataList(categories: MutableList<Category>){
+    fun refreshDataList(categories: List<Category>){
         this.categories=categories
         notifyDataSetChanged()
     }
@@ -44,15 +45,17 @@ class RecyclerCategoryAdapter(var onItemClick: (Category)->Unit):
         private val catName: TextView =itemView.findViewById<TextView>(R.id.cat_name)
 
         fun bindView(category: Category){
-            
+            Log.d("TEST", category.id.toString())
             val imageWidth=if(category.progress > 0 ) {
                 (width * category.progress)/100
             }else 0
             catProgress.setImageResource(when(category.progress){
-                in 0..40-> R.drawable.category_progress_bg_red
+                0->R.drawable.category_progress_bg_grey
+                in 1..40-> R.drawable.category_progress_bg_red
                 in 41..70-> R.drawable.category_progress_bg_orange
                 else -> R.drawable.category_progress_bg_green
             })
+            Log.e("TEST", imageWidth.toString())
             catProgress.layoutParams.width=imageWidth
             catName.text=category.title
 

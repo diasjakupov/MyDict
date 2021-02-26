@@ -10,17 +10,26 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import com.example.mydict.DictApplication
 import com.example.mydict.R
+import com.example.mydict.models.Category
+import com.example.mydict.viewmodels.CategoryViewModel
+import com.example.mydict.viewmodels.CategoryViewModelProvider
 
 class CategoryForm : DialogFragmentInstance() {
     private lateinit var categoryEdit:EditText
     private lateinit var addCategoryBtn: TextView
+    val viewModel: CategoryViewModel by viewModels{
+        CategoryViewModelProvider((activity?.application as DictApplication).repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_category_form, container, false)
     }
@@ -34,6 +43,9 @@ class CategoryForm : DialogFragmentInstance() {
 
         addCategoryBtn.setOnClickListener {
             if(categoryEdit.text.toString().isNotEmpty()){
+                viewModel.insertCategory(
+                    Category(title = categoryEdit.text.toString(), progress = 0)
+                )
                 dialog?.dismiss()
             }else{
                 Toast.makeText(activity?.baseContext,

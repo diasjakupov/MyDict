@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mydict.R
 import com.example.mydict.models.Word
 
-class WordAdapter (private val context: Context,
-                   private val words:List<Word>):
+class WordAdapter ():
         RecyclerView.Adapter<WordAdapter.Holder>() {
     private val width= Resources.getSystem().displayMetrics.widthPixels
+    private var words:List<Word> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val view= LayoutInflater.from(context).inflate(
+        val view= LayoutInflater.from(parent.context).inflate(
                 R.layout.word_list_item,
                 parent,
                 false)
@@ -30,6 +30,11 @@ class WordAdapter (private val context: Context,
 
     override fun getItemCount(): Int {
         return words.count()
+    }
+
+    fun refreshData(words: List<Word>){
+        this.words=words
+        notifyDataSetChanged()
     }
 
     inner class Holder(private val itemView: View) : RecyclerView.ViewHolder(itemView){

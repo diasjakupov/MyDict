@@ -1,25 +1,32 @@
 package com.example.mydict.viewmodels
 
 
+
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.mydict.db.FakeDataBase
+import androidx.lifecycle.*
+import com.example.mydict.db.DictRepository
+
 import com.example.mydict.models.Category
+import kotlinx.coroutines.launch
 
-class CategoryViewModel: ViewModel() {
-    private var categories:MutableLiveData<MutableList<Category>> =
-            MutableLiveData()
+class CategoryViewModel(private val repo: DictRepository): ViewModel() {
+    var categories: LiveData<List<Category>> = repo.categories.asLiveData()
 
-    init{
-        categories.value=FakeDataBase.categories
+    fun insertCategory(category: Category){
+        viewModelScope.launch {
+            repo.insertCategory(category)
+        }
     }
 
-    fun getCategories():LiveData<MutableList<Category>>{
-        return categories
+}
+
+class CategoryViewModelProvider(private val repo:DictRepository) : ViewModelProvider.Factory{
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(CategoryViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return CategoryViewModel(repo) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
-
-
 
 }
