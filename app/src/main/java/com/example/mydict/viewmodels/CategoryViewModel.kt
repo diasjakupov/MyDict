@@ -5,15 +5,18 @@ package com.example.mydict.viewmodels
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.mydict.db.DictRepository
-
 import com.example.mydict.models.Category
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(private val repo: DictRepository): ViewModel() {
-    var categories: LiveData<List<Category>> = repo.categories.asLiveData()
+    public var categories : LiveData<List<Category>> = repo.categories.asLiveData()
+
 
     fun insertCategory(category: Category){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repo.insertCategory(category)
         }
     }

@@ -34,7 +34,7 @@ class WordListActivity : AppCompatActivity() {
         rvWords.adapter=wordadapter
         rvWords.layoutManager=LinearLayoutManager(this)
 
-        wordViewModel.words.observe(this, Observer {
+        wordViewModel.getWords(category).observe(this, Observer {
             wordadapter.refreshData(it)
         })
 

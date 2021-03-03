@@ -1,14 +1,26 @@
 package com.example.mydict.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.example.mydict.db.DictRepository
 import com.example.mydict.models.Word
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class WordViewModel(private val repo:DictRepository): ViewModel() {
-    val words:LiveData<List<Word>> = repo.words.asLiveData()
+    private val words:LiveData<List<Word>> ? =null
+
+    fun getWords(category: Int): LiveData<List<Word>>{
+        return repo.getWords(category).asLiveData()
+    }
+
+    fun insertWord(name:String, category: Int, translate:String, example:String=""){
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.insertWord(Word(name = name,
+                translate = translate,
+                example = example,
+                category = category)   )
+        }
+    }
 }
 
 class WordViewModelProvider(private val repo:DictRepository) : ViewModelProvider.Factory{

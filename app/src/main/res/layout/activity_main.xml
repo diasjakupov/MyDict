@@ -1,58 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/category"
-        android:textColor="#000000"
-        android:textSize="38sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCategory"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <fragment
-        android:id="@+id/fragment"
-        android:name="com.example.mydict.fragments.ButtonsFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.appcompat.widget.Toolbar
+        android:theme="@style/Theme.AppCompat.DayNight"
+        android:id="@+id/custom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvCategory"
-        tools:layout="@layout/fragment_add_button" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/white"
+        android:background="@color/light_blue_600">
+
+        <EditText
+            android:id="@+id/search_edittext"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            />
+    </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
-        android:id="@+id/popupContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/flContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/custom_toolbar">
+
+    </FrameLayout>
+
+    <fragment
+        android:id="@+id/fragment2"
+        android:name="com.example.mydict.fragments.ButtonsFragment"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:layout="@layout/fragment_add_button" />
 
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

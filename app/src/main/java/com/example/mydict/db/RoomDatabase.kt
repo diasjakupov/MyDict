@@ -20,24 +20,7 @@ abstract class DictRoomDatabase: RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
 
 
-    private class WordDatabaseCallback(
-        private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
 
-        override fun onOpen(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
-            instance?.let { database ->
-                scope.launch {
-                    var categoryDao=database.categoryDao()
-
-                    var category=Category("Nouns", 50)
-                    Log.d("TEST", "testing...")
-                    categoryDao.insert(category)
-
-                }
-            }
-        }
-    }
 
     companion object{
         @Volatile private var instance:DictRoomDatabase? = null
@@ -46,7 +29,6 @@ abstract class DictRoomDatabase: RoomDatabase() {
                 val db= Room.databaseBuilder(context.applicationContext,
                 DictRoomDatabase::class.java, "dict_database")
                     .fallbackToDestructiveMigration()
-                    .addCallback(WordDatabaseCallback(scope))
                     .build()
                 instance=db
                 db

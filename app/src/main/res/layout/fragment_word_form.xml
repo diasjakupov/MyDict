@@ -60,11 +60,20 @@
                 app:layout_constraintBottom_toTopOf="@+id/word"
                 app:layout_constraintStart_toStartOf="@+id/word" />
 
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wordTranslate" />
+
             <TextView
                 android:id="@+id/addWord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:background="#FFFFFF"
                 android:padding="0dp"
                 android:text="@string/add_new_word"
@@ -73,7 +82,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/wordTranslate"
-                app:layout_constraintTop_toBottomOf="@+id/wordTranslate" />
+                app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

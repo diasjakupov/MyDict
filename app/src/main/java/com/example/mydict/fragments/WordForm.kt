@@ -1,6 +1,7 @@
 package com.example.mydict.fragments
 
 
+import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 
@@ -8,16 +9,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.map
+import com.example.mydict.DictApplication
 import com.example.mydict.R
+import com.example.mydict.models.Category
+import com.example.mydict.viewmodels.CategoryViewModel
+import com.example.mydict.viewmodels.CategoryViewModelProvider
+import com.example.mydict.viewmodels.WordViewModel
+import com.example.mydict.viewmodels.WordViewModelProvider
 
 class WordForm : DialogFragmentInstance() {
     private lateinit var createNewWord:TextView
     private lateinit var wordInput:TextView
     private lateinit var wordTranslate:TextView
+    private lateinit var spinner: Spinner
+    private val CategoryviewModel: CategoryViewModel by viewModels {
+        CategoryViewModelProvider((activity?.application as DictApplication).repository)
+    }
+    private val WordviewModel:WordViewModel by viewModels{
+        WordViewModelProvider((activity?.application as DictApplication).repository)
+    }
 
 
     override fun onCreateView(
@@ -35,15 +55,41 @@ class WordForm : DialogFragmentInstance() {
         cardView=view.findViewById<CardView>(R.id.WordcardView)
         getCardViewWeight()
 
+        spinner=view.findViewById(R.id.spinner)
         createNewWord=view.findViewById(R.id.addWord)
         wordInput=view.findViewById(R.id.word)
         wordTranslate=view.findViewById(R.id.wordTranslate)
+
+        var adapter=ArrayAdapter(
+            requireActivity().baseContext,
+            R.layout.spinner_text,
+            arrayListOf<Category>()
+        )
+
+        CategoryviewModel.categories.observe(this, Observer {
+            adapter.addAll(it)
+            adapter.notifyDataSetChanged()
+        })
+
+
+        spinner.adapter=adapter
+
         createNewWord.setOnClickListener {
+            var cat=(spinner.selectedItem as Category)
+
             if(wordInput.text.toString().isNotEmpty() &&
-                    wordTranslate.text.toString().isNotEmpty()){
+                wordTranslate.text.toString().isNotEmpty()
+                ) {
+
+                WordviewModel.insertWord(
+                    name = wordInput.text.toString(),
+                    translate = wordTranslate.text.toString(),
+                    category = cat.id
+                )
+
                 dialog?.dismiss()
             }else{
-                Toast.makeText(activity?.baseContext,
+                Toast.makeText(activity,
                         "Please fill up the inputs",
                         Toast.LENGTH_SHORT).show()
             }
