@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.mydict.DictApplication
 import com.example.mydict.R
@@ -20,7 +21,7 @@ import com.example.mydict.viewmodels.CategoryViewModelProvider
 class CategoryForm : DialogFragmentInstance() {
     private lateinit var categoryEdit:EditText
     private lateinit var addCategoryBtn: TextView
-    val viewModel: CategoryViewModel by viewModels{
+    val viewModel: CategoryViewModel by activityViewModels{
         CategoryViewModelProvider((activity?.application as DictApplication).repository)
     }
 

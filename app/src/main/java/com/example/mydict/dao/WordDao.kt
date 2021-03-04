@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WordDao {
+    @Query("SELECT * FROM word_table")
+    fun getAllWords():Flow<List<Word>>
+
     @Query("SELECT * FROM word_table WHERE category=:id")
     fun getWordListById(id: Int): Flow<List<Word>>
 

@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.map
@@ -32,10 +33,10 @@ class WordForm : DialogFragmentInstance() {
     private lateinit var wordInput:TextView
     private lateinit var wordTranslate:TextView
     private lateinit var spinner: Spinner
-    private val CategoryviewModel: CategoryViewModel by viewModels {
+    private val CategoryviewModel: CategoryViewModel by activityViewModels {
         CategoryViewModelProvider((activity?.application as DictApplication).repository)
     }
-    private val WordviewModel:WordViewModel by viewModels{
+    private val WordviewModel:WordViewModel by activityViewModels{
         WordViewModelProvider((activity?.application as DictApplication).repository)
     }
 
@@ -60,13 +61,13 @@ class WordForm : DialogFragmentInstance() {
         wordInput=view.findViewById(R.id.word)
         wordTranslate=view.findViewById(R.id.wordTranslate)
 
-        var adapter=ArrayAdapter(
+        val adapter=ArrayAdapter(
             requireActivity().baseContext,
             R.layout.spinner_text,
             arrayListOf<Category>()
         )
 
-        CategoryviewModel.categories.observe(this, Observer {
+        CategoryviewModel.categories.observe(this, {
             adapter.addAll(it)
             adapter.notifyDataSetChanged()
         })
@@ -75,7 +76,7 @@ class WordForm : DialogFragmentInstance() {
         spinner.adapter=adapter
 
         createNewWord.setOnClickListener {
-            var cat=(spinner.selectedItem as Category)
+            val cat=(spinner.selectedItem as Category)
 
             if(wordInput.text.toString().isNotEmpty() &&
                 wordTranslate.text.toString().isNotEmpty()

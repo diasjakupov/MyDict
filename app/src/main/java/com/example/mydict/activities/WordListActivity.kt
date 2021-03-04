@@ -10,10 +10,6 @@ import com.example.mydict.DictApplication
 import com.example.mydict.EXTRA_CATEGORY
 import com.example.mydict.R
 import com.example.mydict.adapters.WordAdapter
-import com.example.mydict.db.DictRepository
-import com.example.mydict.db.FakeDataBase
-import com.example.mydict.models.Category
-import com.example.mydict.models.Word
 import com.example.mydict.viewmodels.WordViewModel
 import com.example.mydict.viewmodels.WordViewModelProvider
 
@@ -27,14 +23,14 @@ class WordListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_word_list)
-        var category=intent.getIntExtra(EXTRA_CATEGORY, 0)
+        val category=intent.getIntExtra(EXTRA_CATEGORY, 0)
 
         wordadapter=WordAdapter()
         val rvWords=findViewById<RecyclerView>(R.id.rvWords)
         rvWords.adapter=wordadapter
         rvWords.layoutManager=LinearLayoutManager(this)
 
-        wordViewModel.getWords(category).observe(this, Observer {
+        wordViewModel.getWordsbyCategoryId(category).observe(this, {
             wordadapter.refreshData(it)
         })
 

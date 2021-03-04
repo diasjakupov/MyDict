@@ -16,12 +16,16 @@ import kotlinx.coroutines.launch
 
 
 class DictRepository(private val WordDao:WordDao, private val CategoryDao:CategoryDao) {
-    public var categories: Flow<List<Category>>  = CategoryDao.getCategoryList()
+    var categories: Flow<List<Category>>  = CategoryDao.getCategoryList()
 
 
 
-    fun getWords(category:Int): Flow<List<Word>>{
+    fun getWordsByCategoryId(category:Int): Flow<List<Word>>{
         return WordDao.getWordListById(category)
+    }
+
+    fun getAllWords():Flow<List<Word>>{
+        return WordDao.getAllWords()
     }
 
     suspend fun insertCategory(category:Category){
