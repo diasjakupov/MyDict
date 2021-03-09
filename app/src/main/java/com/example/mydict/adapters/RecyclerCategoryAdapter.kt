@@ -45,7 +45,6 @@ class RecyclerCategoryAdapter(var onItemClick: (Category)->Unit):
         private val catName: TextView =itemView.findViewById<TextView>(R.id.cat_name)
 
         fun bindView(category: Category){
-            Log.d("TEST", category.id.toString())
             val imageWidth=if(category.progress > 0 ) {
                 (width * category.progress)/100
             }else 0
@@ -55,7 +54,6 @@ class RecyclerCategoryAdapter(var onItemClick: (Category)->Unit):
                 in 41..70-> R.drawable.category_progress_bg_orange
                 else -> R.drawable.category_progress_bg_green
             })
-            Log.e("TEST", imageWidth.toString())
             catProgress.layoutParams.width=imageWidth
             catName.text=category.title
 

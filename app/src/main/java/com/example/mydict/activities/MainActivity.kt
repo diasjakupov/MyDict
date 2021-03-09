@@ -55,9 +55,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         setToolBar()
-
         setRecyclerCategoryView()
     }
 
@@ -80,7 +78,6 @@ class MainActivity : AppCompatActivity() {
         searchInput=findViewById(R.id.search_edittext)
         searchInput.addTextChangedListener {
             wordViewModel.searchText.value=it.toString()
-            Log.e("TEST", wordViewModel.searchText.value.toString())
         }
     }
 
@@ -125,9 +122,4 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        onCancelClick()
-
-    }
 }

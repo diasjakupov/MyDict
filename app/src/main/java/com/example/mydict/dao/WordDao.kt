@@ -1,9 +1,7 @@
 package com.example.mydict.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import com.example.mydict.models.Word
 import kotlinx.coroutines.flow.Flow
 
@@ -16,6 +14,18 @@ interface WordDao {
     @Query("SELECT * FROM word_table WHERE category=:id")
     fun getWordListById(id: Int): Flow<List<Word>>
 
+    @Query("SELECT * FROM word_table WHERE id=:id")
+    fun getWord(id:Int): LiveData<Word>
+
+    @Query("DELETE FROM word_table WHERE id=:id")
+    suspend fun deleteWord(id:Int)
+
+    @Query("UPDATE word_table SET name=:name, translate=:translate WHERE id=:id")
+    suspend fun updateWord(name:String,translate:String, id: Int)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(word:Word)
+
+    @Query("UPDATE word_table SET example=:examples WHERE id=:id")
+    suspend fun insertExample(examples:String, id:Int)
 }

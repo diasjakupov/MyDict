@@ -1,35 +1,28 @@
 package com.example.mydict.fragments
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mydict.DictApplication
-import com.example.mydict.EXTRA_CATEGORY
 import com.example.mydict.R
-import com.example.mydict.activities.WordListActivity
 import com.example.mydict.adapters.RecyclerCategoryAdapter
 import com.example.mydict.models.Category
-import com.example.mydict.viewmodels.CategoryViewModel
-import com.example.mydict.viewmodels.CategoryViewModelProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.util.*
+import com.example.mydict.viewmodels.WordViewModel
+import com.example.mydict.viewmodels.WordViewModelProvider
 
 
 class CategoryRecyclerViewFR(var categoryList: List<Category>) : Fragment() {
     private lateinit var adapter: RecyclerCategoryAdapter
     lateinit var rvCategory:RecyclerView
+    private val wordViewModel: WordViewModel by activityViewModels{
+        WordViewModelProvider((requireActivity().application as DictApplication).repository)
+    }
 
 
     override fun onCreateView(
@@ -45,10 +38,10 @@ class CategoryRecyclerViewFR(var categoryList: List<Category>) : Fragment() {
         rvCategory=view.findViewById(R.id.rvCategory)
 
         adapter = RecyclerCategoryAdapter() { category ->
-            val intent = Intent(activity, WordListActivity::class.java).apply {
-                putExtra(EXTRA_CATEGORY, category?.id)
-            }
-            startActivity(intent)
+            requireActivity().supportFragmentManager.beginTransaction().replace(
+                R.id.flContainer, WordListFragment.newInstance(category = category.id)
+            ).addToBackStack(null).commit()
+            (activity as AppCompatActivity).supportActionBar?.title=category.title
         }
 
         rvCategory.adapter = adapter
@@ -58,6 +51,12 @@ class CategoryRecyclerViewFR(var categoryList: List<Category>) : Fragment() {
         adapter.refreshDataList(categoryList)
 
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        wordViewModel.currentCategoryId.value=0
+        (activity as AppCompatActivity).supportActionBar?.title="My dictionary"
     }
 
     companion object {

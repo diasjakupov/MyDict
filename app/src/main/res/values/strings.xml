@@ -15,7 +15,12 @@
 
     <string name="search">Search</string>
     <string name="clear">Clear</string>
-
+    <string name="examples">Examples:</string>
+    <string name="word_detail_translate">Translate:</string>
+    <string name="name">Name:</string>
+    <string name="details">Details</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
