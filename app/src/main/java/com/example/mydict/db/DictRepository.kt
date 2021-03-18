@@ -1,18 +1,12 @@
 package com.example.mydict.db
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.mydict.dao.CategoryDao
 import com.example.mydict.dao.WordDao
 import com.example.mydict.models.Category
 import com.example.mydict.models.Word
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 
@@ -36,25 +30,42 @@ class DictRepository(private val WordDao:WordDao, private val CategoryDao:Catego
         WordDao.deleteWord(word)
     }
 
+    suspend fun updateWordProgress(id:Int, progress:Int){
+        WordDao.updateWordProgress(progress, id)
+    }
+
+    suspend fun updateCategoryProgress(id:Int, progress:Int){
+        CategoryDao.updateCategoryProgress(id, progress)
+    }
+
+    suspend fun UpdateCategoryName(id:Int, name:String){
+        CategoryDao.updateCategoryName(id, name)
+    }
+
+    suspend fun deleteCategoryWithWords(category_id:Int){
+        WordDao.deleteWordByCategory(category_id)
+        CategoryDao.deleteCategory(category_id)
+    }
+
     suspend fun insertCategory(category:Category){
         CategoryDao.insert(category)
     }
 
-    suspend fun insertExample(examples: String, id:Int){
-        WordDao.insertExample(examples, id)
+    suspend fun insertExample(examples: ArrayList<String>, id:Int){
+        val jsonExamples=Gson().toJson(examples)
+        WordDao.insertExample(jsonExamples, id)
     }
 
-
     suspend fun insertWord(name:String, category: Int, translate:String, example:String=""){
-        var examples= arrayListOf<String>()
+        val examples= arrayListOf<String>()
         if(example.isNotEmpty()){
             examples.add(example)
         }
         if(examples.size>0){
-            var word=Word(name, translate, examples, 0, category)
+            val word=Word(name, translate, examples, 0, category)
             WordDao.insert(word)
         }
-        var word=Word(name, translate, null, 0, category)
+        val word=Word(name, translate, examples, 0, category)
         WordDao.insert(word)
 
     }

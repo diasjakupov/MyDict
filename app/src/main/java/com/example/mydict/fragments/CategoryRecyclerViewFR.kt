@@ -13,6 +13,7 @@ import com.example.mydict.DictApplication
 import com.example.mydict.R
 import com.example.mydict.adapters.RecyclerCategoryAdapter
 import com.example.mydict.models.Category
+import com.example.mydict.models.CategoryAdapter
 import com.example.mydict.viewmodels.WordViewModel
 import com.example.mydict.viewmodels.WordViewModelProvider
 
@@ -37,12 +38,11 @@ class CategoryRecyclerViewFR(var categoryList: List<Category>) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         rvCategory=view.findViewById(R.id.rvCategory)
 
-        adapter = RecyclerCategoryAdapter() { category ->
-            requireActivity().supportFragmentManager.beginTransaction().replace(
-                R.id.flContainer, WordListFragment.newInstance(category = category.id)
-            ).addToBackStack(null).commit()
-            (activity as AppCompatActivity).supportActionBar?.title=category.title
-        }
+        adapter = RecyclerCategoryAdapter(
+            CategoryAdapter.MainCategoryAdapter,
+            {category->onItemClick(category)},
+            {category ->onLongItemClick(category)  }
+        )
 
         rvCategory.adapter = adapter
         rvCategory.layoutManager = LinearLayoutManager(activity)
@@ -51,6 +51,19 @@ class CategoryRecyclerViewFR(var categoryList: List<Category>) : Fragment() {
         adapter.refreshDataList(categoryList)
 
 
+    }
+
+    private fun onLongItemClick(category: Category):Boolean{
+        val dialog=DeleteOrUpdateCategory.newInstance(category)
+        dialog.show(requireActivity().supportFragmentManager, "DELETE CATEGORY")
+        return true
+    }
+
+    private fun onItemClick(category: Category){
+        requireActivity().supportFragmentManager.beginTransaction().replace(
+            R.id.flContainer, WordListFragment.newInstance(category = category.id)
+        ).addToBackStack(null).commit()
+        (activity as AppCompatActivity).supportActionBar?.title=category.title
     }
 
     override fun onStart() {
@@ -65,4 +78,5 @@ class CategoryRecyclerViewFR(var categoryList: List<Category>) : Fragment() {
         fun newInstance(categoryList:List<Category>) =
             CategoryRecyclerViewFR(categoryList)
     }
+
 }

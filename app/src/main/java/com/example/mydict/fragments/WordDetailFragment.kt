@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -16,22 +15,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mydict.DictApplication
 import com.example.mydict.R
 import com.example.mydict.adapters.WordExampleAdapter
-import com.example.mydict.models.Word
+import com.example.mydict.models.StatusModelChange
 import com.example.mydict.viewmodels.WordDetailViewModel
 import com.example.mydict.viewmodels.WordDetailViewModelProvider
 
 
 class WordDetailFragment(var word: Int) : Fragment() {
     private lateinit var rvExamples: RecyclerView
-    private lateinit var wordName:EditText
-    private lateinit var wordTranslate:EditText
-    private val wordDetailViewModel:WordDetailViewModel by activityViewModels {
+    private lateinit var wordName: EditText
+    private lateinit var wordTranslate: EditText
+    private val wordDetailViewModel: WordDetailViewModel by activityViewModels {
         WordDetailViewModelProvider((requireActivity().application as DictApplication).repository)
     }
-    private lateinit var wordNameIcon:ImageView
-    private lateinit var wordTranslateIcon:ImageView
-    private lateinit var closeDetail:TextView
-    private lateinit var addExample:ImageButton
+    private lateinit var closeDetail: TextView
+    private lateinit var addExample: ImageButton
+    private lateinit var updateCategory:TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,15 +42,14 @@ class WordDetailFragment(var word: Int) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        wordNameIcon=view.findViewById(R.id.changeWordName)
-        wordTranslateIcon=view.findViewById(R.id.changeTranslate)
-        wordName=view.findViewById(R.id.word_detail_name)
-        wordTranslate=view.findViewById(R.id.word_detail_translate)
-        closeDetail=view.findViewById(R.id.closeDetail)
-        addExample=view.findViewById(R.id.addExample)
+        updateCategory = view.findViewById(R.id.updateWordDetail)
+        wordName = view.findViewById(R.id.word_detail_name)
+        wordTranslate = view.findViewById(R.id.word_detail_translate)
+        closeDetail = view.findViewById(R.id.closeDetail)
+        addExample = view.findViewById(R.id.addExample)
 
         addExample.setOnClickListener {
-            var dialog=AddExampleWindow.newInstance(word)
+            val dialog = AddBottomWindow.newInstance(word, StatusModelChange.CREATE_EXAMPLE)
             dialog.show(childFragmentManager, "ADD_EXAMPLE")
         }
 
@@ -62,11 +59,11 @@ class WordDetailFragment(var word: Int) : Fragment() {
         }
 
         wordName.addTextChangedListener {
-            wordDetailViewModel.word?.value!!.name=it.toString()
+            wordDetailViewModel.word?.value!!.name = it.toString()
         }
 
         wordTranslate.addTextChangedListener {
-            wordDetailViewModel.word?.value!!.translate=it.toString()
+            wordDetailViewModel.word?.value!!.translate = it.toString()
         }
 
         wordDetailViewModel.word?.observe(viewLifecycleOwner, {
@@ -74,15 +71,15 @@ class WordDetailFragment(var word: Int) : Fragment() {
             wordTranslate.setText(it.translate)
         })
 
-        wordNameIcon.setOnClickListener { changeWord() }
+        updateCategory.setOnClickListener { changeWord() }
 
-        wordTranslateIcon.setOnClickListener { changeWord() }
 
-        rvExamples= view.findViewById(R.id.rvExamples)
+        rvExamples = view.findViewById(R.id.rvExamples)
         initializeRecyclerView()
     }
 
-    private fun changeWord(){
+
+    private fun changeWord() {
         wordDetailViewModel.updateWord(
             wordDetailViewModel.word?.value!!.name,
             wordDetailViewModel.word?.value!!.translate,
@@ -90,17 +87,26 @@ class WordDetailFragment(var word: Int) : Fragment() {
         )
     }
 
-    private fun initializeRecyclerView(){
-        var adapter=WordExampleAdapter(){ _, position->
+    private fun initializeRecyclerView() {
+        val adapter = WordExampleAdapter({ _, position ->
             wordDetailViewModel.deleteExample(position, word)
-        }
-        rvExamples.adapter=adapter
-        rvExamples.layoutManager=LinearLayoutManager(activity)
+        }, { example, position ->
+            val dialog = AddBottomWindow.newInstance(
+                word,
+                StatusModelChange.UPDATE_EXAMPLE,
+                position,
+                example
+            )
+            dialog.show(childFragmentManager, "EDIT_EXAMPLE")
+        })
+        rvExamples.adapter = adapter
+        rvExamples.layoutManager = LinearLayoutManager(activity)
 
         wordDetailViewModel.word?.observe(viewLifecycleOwner, {
-            it.example?.let { it1 -> adapter.refreshData(it1) }
+            it.example.let { it1 -> adapter.refreshData(it1) }
         })
     }
+
     companion object {
         @JvmStatic
         fun newInstance(word: Int) =

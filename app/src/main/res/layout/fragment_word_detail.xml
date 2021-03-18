@@ -90,23 +90,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-    <ImageView
-        android:id="@+id/changeWordName"
-        android:layout_width="44dp"
-        android:layout_height="43dp"
-        app:layout_constraintStart_toEndOf="@+id/word_detail_name"
-        app:layout_constraintTop_toTopOf="@+id/word_detail_name"
-        app:srcCompat="@drawable/ic_change_ex" />
-
-    <ImageView
-        android:id="@+id/changeTranslate"
-        android:layout_width="47dp"
-        android:layout_height="42dp"
-        app:srcCompat="@drawable/ic_change_ex"
-        app:layout_constraintEnd_toEndOf="@+id/changeWordName"
-        app:layout_constraintStart_toEndOf="@+id/word_detail_translate"
-        app:layout_constraintTop_toTopOf="@+id/word_detail_translate" />
-
     <TextView
         android:id="@+id/closeDetail"
         android:layout_width="wrap_content"
@@ -129,4 +112,16 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView8"
         app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/updateWordDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Update"
+        android:textColor="#00FFCB"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/closeDetail"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/closeDetail" />
 </androidx.constraintlayout.widget.ConstraintLayout>

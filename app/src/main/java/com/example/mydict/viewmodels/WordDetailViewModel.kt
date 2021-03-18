@@ -27,21 +27,30 @@ class WordDetailViewModel(private val repo: DictRepository): ViewModel() {
     }
 
     fun insertExamples(example: String, id:Int){
-        var examples=word?.value!!.example ?: arrayListOf()
-        examples.add(example.replace(" ", "_"))
+        val examples=word?.value!!.example
+        examples.add(example)
         viewModelScope.launch(Dispatchers.Default){
-            repo.insertExample(examples.toString(), id)
+            repo.insertExample(examples, id)
         }
     }
 
     fun deleteExample(position:Int, id:Int){
-        var examples=word?.value!!.example ?: arrayListOf()
+        val examples=word?.value!!.example
         if(examples.size>0){
             examples.removeAt(position)
         }
-        Log.e("TESTING INSERT", "$examples at $id")
         viewModelScope.launch(Dispatchers.Default){
-            repo.insertExample(examples.toString(), id)
+            repo.insertExample(examples, id)
+        }
+    }
+
+    fun updateExample(position:Int, id:Int, newExample:String){
+        val examples= word?.value!!.example
+        if(examples.size>0){
+            examples[position]=newExample
+        }
+        viewModelScope.launch(Dispatchers.Default){
+            repo.insertExample(examples, id)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.mydict.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +9,15 @@ import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.mydict.R
+import com.example.mydict.activities.WordGame
 import com.example.mydict.viewmodels.CategoryViewModel
 
 class ButtonsFragment : Fragment() {
-    lateinit var Wordbtn: ImageButton
-    lateinit var CategoryBtn: ImageButton
+    private lateinit var Wordbtn: ImageButton
+    private lateinit var CategoryBtn: ImageButton
+    private lateinit var StartGame:ImageButton
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_button, container, false)
@@ -27,6 +32,11 @@ class ButtonsFragment : Fragment() {
         CategoryBtn=view.findViewById(R.id.CategoryAdd)
         CategoryBtn.setOnClickListener {
             onCategoryClick()
+        }
+        StartGame=view.findViewById(R.id.startGame)
+        StartGame.setOnClickListener {
+            val intent=Intent(activity, WordGame::class.java)
+            startActivity(intent)
         }
         
     }

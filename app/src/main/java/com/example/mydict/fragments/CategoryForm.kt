@@ -8,13 +8,11 @@ import android.view.Window
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.example.mydict.DictApplication
 import com.example.mydict.R
 import com.example.mydict.models.Category
+import com.example.mydict.models.StatusModelChange
 import com.example.mydict.viewmodels.CategoryViewModel
 import com.example.mydict.viewmodels.CategoryViewModelProvider
 

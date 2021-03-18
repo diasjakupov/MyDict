@@ -20,8 +20,14 @@ interface WordDao {
     @Query("DELETE FROM word_table WHERE id=:id")
     suspend fun deleteWord(id:Int)
 
+    @Query("DELETE FROM word_table WHERE category=:cat_id")
+    suspend fun deleteWordByCategory(cat_id:Int)
+
     @Query("UPDATE word_table SET name=:name, translate=:translate WHERE id=:id")
     suspend fun updateWord(name:String,translate:String, id: Int)
+
+    @Query("UPDATE word_table SET progress=:progress WHERE id=:id")
+    suspend fun updateWordProgress(progress:Int, id:Int)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(word:Word)

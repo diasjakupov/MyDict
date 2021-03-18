@@ -12,15 +12,24 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(private val repo: DictRepository): ViewModel() {
-    public var categories : LiveData<List<Category>> = repo.categories.asLiveData()
-
+    var categories : LiveData<List<Category>> = repo.categories.asLiveData()
 
     fun insertCategory(category: Category){
         viewModelScope.launch(Dispatchers.IO) {
             repo.insertCategory(category)
         }
     }
+    fun delete(category_id:Int){
+        viewModelScope.launch(Dispatchers.IO){
+            repo.deleteCategoryWithWords(category_id)
+        }
+    }
 
+    fun updateCategory(category_id: Int, name:String){
+        viewModelScope.launch(Dispatchers.IO){
+            repo.UpdateCategoryName(category_id, name)
+        }
+    }
 }
 
 class CategoryViewModelProvider(private val repo:DictRepository) : ViewModelProvider.Factory{

@@ -10,14 +10,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mydict.R
 
-class WordExampleAdapter(var itemOnClick:(String, id:Int)->Unit): RecyclerView.Adapter<WordExampleAdapter.Holder>() {
+class WordExampleAdapter(var itemOnDelete:(String, id:Int)->Unit,
+                         var itemOnChange:(String, id:Int)->Unit)
+    : RecyclerView.Adapter<WordExampleAdapter.Holder>() {
     private var examples: ArrayList<String> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        var view=LayoutInflater.from(parent.context).inflate(
+        val view=LayoutInflater.from(parent.context).inflate(
             R.layout.example, parent, false
         )
-        return Holder(view, itemOnClick)
+        return Holder(view, itemOnDelete, itemOnChange)
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -33,14 +35,20 @@ class WordExampleAdapter(var itemOnClick:(String, id:Int)->Unit): RecyclerView.A
         notifyDataSetChanged()
     }
 
-    inner class Holder(itemView: View, var itemOnClick:(String, id:Int)->Unit) : RecyclerView.ViewHolder(itemView){
+    inner class Holder(itemView: View,
+                       var itemOnDelete:(String, id:Int)->Unit,
+                       var itemOnChange:(String, id:Int)->Unit) : RecyclerView.ViewHolder(itemView){
         private var text:TextView=itemView.findViewById(R.id.exampletext)
         private var onDelete:ImageView=itemView.findViewById(R.id.delete_example)
+        private var onChange:ImageView=itemView.findViewById(R.id.edit_example)
 
         fun onDataBind(example:String, position:Int){
             text.text=example
             onDelete.setOnClickListener {
-                itemOnClick(example, position)
+                itemOnDelete(example, position)
+            }
+            onChange.setOnClickListener {
+                itemOnChange(example, position)
             }
         }
     }
