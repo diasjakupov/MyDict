@@ -39,9 +39,15 @@ class GameViewModel(var repo:DictRepository) : ViewModel() {
 
     fun updateWordProgress(word: Word, status:UpdateWordStatus, category:Int){
         if (status==UpdateWordStatus.OK){
-            if(word.progress<100){
+            if(word.progress<91){
                 viewModelScope.launch(Dispatchers.IO){
                     repo.updateWordProgress(word.id, word.progress+10)
+                    updateCategoryProgress(category)
+                }
+            }else{
+                viewModelScope.launch(Dispatchers.IO){
+                    var progress=(100-word.progress)+word.progress
+                    repo.updateWordProgress(word.id, progress)
                     updateCategoryProgress(category)
                 }
             }
